@@ -1,112 +1,116 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { Component } from 'react';
+import { View, Button, TextInput, StyleSheet} from 'react-native';
+import Header from './Components/Header';
+class App extends Component {
+  state = {
+    num: 0,
+    textValue: 'Tasbih'
+  }
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  tambahTasbih = () => {
+    this.setState({
+     num: this.state.num + 1,
+    })
+  }
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  batas = () => {
+    let bts = this.state.num + 1
+    if (bts > 33) {
+      this.setState({
+        num: 0
+      })
+    }
+  }
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+  changeButton = () =>{
+    let change = this.state.num +1
+    let txt = this.state.textValue
+    if (change > 33 && txt == 'Tasbih') {
+      this.setState({
+        textValue: 'Tahmid'
+      }) 
+    }
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+    if (change > 33 && txt == 'Tahmid') {
+      this.setState({
+        textValue: 'Takbir'
+      })
+    }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    if (change > 33 && txt == 'Takbir') {
+      this.setState({
+        textValue: 'Tasbih'
+      })
+    }
+  }
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+  resetTasbih = () => {
+    this.setState({
+      num: 0,
+    })
+  }
+
+  resetText = () => {
+    this.setState({
+      textValue: 'Tasbih'
+    })
+  }
+
+  onPressButton = () => {
+    this.tambahTasbih(),
+    this.batas(),
+    this.changeButton()
+  }
+
+  onPressReset = () => {
+    this.resetTasbih(),
+    this.resetText()
+  }
+
+  render() { 
+    return ( 
+      <View>
+        <View style={styles.header}>
+          <Header/>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+
+        <View style={styles.text}>
+          <TextInput value={String(this.state.num)}/>
+        </View>
+
+        <View style={styles.button}>
+          <Button title={this.state.textValue} onPress={this.onPressButton}/>
+        </View>
+
+        <View style={styles.button}>
+          <Button title="RESET" onPress={this.onPressReset}/>
+        </View>
+      </View>
+     );
+  }
+}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  header: {
+    backgroundColor: '#516BEB',
+    alignItems: 'center',
+    padding: 5,
+    padding: 15,
+    fontWeight: 'Bold'
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
+  text: {
+    alignItems: 'center',
+    margin: 50,
+  },
+
+  button: {
+    marginBottom: 15,
+    marginStart: 25,
+    marginEnd: 25
+  },
+
+
+})
+ 
 export default App;
